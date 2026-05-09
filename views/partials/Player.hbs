@@ -1,0 +1,87 @@
+<div style="opacity: {{config.opacity}}%;" class="absolute bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-md">
+    <div class="relative overflow-hidden rounded-3xl backdrop-blur-md border border-white/20 shadow-2xl"
+         style="background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);">
+
+        <div class="h-px w-full" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);"></div>
+
+        <div class="flex items-center gap-4 p-5">
+            <button id="play-pause"
+                    class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200"
+                    style="background: linear-gradient(135deg, {{config.playerColor}}33, {{config.playerColor}}11); border: 1px solid {{config.playerColor}}44; box-shadow: 0 0 12px {{config.playerColor}}22;"
+                    onmouseover="this.style.boxShadow='0 0 20px {{config.playerColor}}55'"
+                    onmouseout="this.style.boxShadow='0 0 12px {{config.playerColor}}22'">
+                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-0.5" style="fill:{{config.playerColor}};" viewBox="0 0 384 512">
+                    <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
+                </svg>
+                <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden" style="fill:{{config.playerColor}};" viewBox="0 0 320 512">
+                    <path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"/>
+                </svg>
+            </button>
+
+            <div class="flex flex-col gap-1.5 flex-1 min-w-0">
+                <h2 id="song-title" class="text-sm font-semibold truncate tracking-wide" style="color:{{config.playerColor}}; text-shadow: 0 0 8px {{config.playerColor}}66;">
+                    {{config.songTitle}}
+                </h2>
+
+                <div id="progress-track" class="relative h-0.5 rounded-full cursor-pointer" style="background:{{config.playerColor}}22;">
+                    <div id="progress-fill" class="h-full rounded-full" style="width:0%; background:{{config.playerColor}}; box-shadow: 0 0 6px {{config.playerColor}}88;"></div>
+                    <div id="progress-thumb" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full opacity-0 transition-opacity duration-200" style="left:0%; background:{{config.playerColor}}; box-shadow:0 0 8px {{config.playerColor}};"></div>
+                </div>
+
+                <span id="progress-text" class="text-xs tabular-nums" style="color:{{config.playerColor}}88;">0:00 / 0:00</span>
+            </div>
+
+            {{#if config.albumArt}}
+                <img src="{{config.albumArt}}" class="flex-shrink-0 w-14 h-14 rounded-xl object-cover shadow-lg" style="box-shadow: 0 0 12px {{config.playerColor}}33;" alt="okładka">
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<audio id="audio" src="{{config.songSource}}"></audio>
+
+<script>
+    const audio = document.getElementById("audio");
+    const playPauseBtn = document.getElementById("play-pause");
+    const playIcon = document.getElementById("play-icon");
+    const pauseIcon = document.getElementById("pause-icon");
+    const progressFill = document.getElementById("progress-fill");
+    const progressThumb = document.getElementById("progress-thumb");
+    const progressTrack = document.getElementById("progress-track");
+    const timeDisplay = document.getElementById("progress-text");
+
+    window.addEventListener("DOMContentLoaded", () => {
+        audio.play().catch(e => console.log("Autoplay blocked:", e));
+    });
+
+    audio.addEventListener("play", () => { playIcon.classList.add("hidden"); pauseIcon.classList.remove("hidden"); });
+    audio.addEventListener("pause", () => { playIcon.classList.remove("hidden"); pauseIcon.classList.add("hidden"); });
+    playPauseBtn.addEventListener("click", () => { audio.paused ? audio.play() : audio.pause(); });
+
+    audio.addEventListener("timeupdate", () => {
+        const pct = (audio.currentTime / audio.duration) * 100 || 0;
+        progressFill.style.width = pct + "%";
+        progressThumb.style.left = pct + "%";
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+
+    progressTrack.addEventListener("mouseenter", () => progressThumb.classList.replace("opacity-0", "opacity-100"));
+    progressTrack.addEventListener("mouseleave", () => progressThumb.classList.replace("opacity-100", "opacity-0"));
+
+    let dragging = false;
+    function seek(e) {
+        const rect = progressTrack.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        audio.currentTime = pct * audio.duration;
+    }
+    progressTrack.addEventListener("mousedown", (e) => { dragging = true; seek(e); });
+    document.addEventListener("mousemove", (e) => { if (dragging) seek(e); });
+    document.addEventListener("mouseup", () => { dragging = false; });
+
+    function formatTime(secs) {
+        if (isNaN(secs)) return "0:00";
+        const min = Math.floor(secs / 60);
+        const sec = Math.floor(secs % 60);
+        return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+    }
+</script>

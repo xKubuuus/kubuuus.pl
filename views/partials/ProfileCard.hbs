@@ -1,0 +1,14 @@
+<div class="p-4 rounded-lg shadow-lg bg-gray-300/30 z-2 pt-8" style="opacity: {{config.opacity}}%; color: {{config.fontColor}}">
+
+    {{>UserHeader this }}
+
+    {{#if config.showActivity}}
+        {{> Activity this }}
+    {{/if}}
+
+    <div class="mt-8">
+        <p class="text-center" style="text-shadow: 0 0 10px {{config.fontColor}}, 0 0 20px {{config.fontColor}}, 0 0 30px {{config.fontColor}};">{{{config.description}}}</p>
+        {{> Socials this }}
+    </div>
+
+</div>

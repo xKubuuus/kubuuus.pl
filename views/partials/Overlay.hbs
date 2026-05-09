@@ -1,0 +1,23 @@
+<div id="overlay" class="fixed inset-0 flex items-center justify-center z-50 cursor-pointer"
+     style="background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); transition: opacity 0.6s ease;">
+    <div class="text-center select-none">
+        <p class="text-white/40 text-4xl tracking-widest uppercase">Kliknij!</p>
+    </div>
+</div>
+
+<script>
+    const overlay = document.getElementById("overlay");
+    const content = document.getElementById("content");
+    const bgVideo = document.getElementById("bg-video");
+    const overlayAudio = document.getElementById("audio");
+
+    overlay.addEventListener("click", () => {
+        overlay.style.opacity = "0";
+        overlay.style.pointerEvents = "none";
+        bgVideo.play().catch(() => {});
+        bgVideo.style.opacity = "1";
+        content.style.opacity = "1";
+        if (overlayAudio) overlayAudio.play().catch(() => {});
+        setTimeout(() => overlay.remove(), 600);
+    });
+</script>

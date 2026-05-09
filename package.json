@@ -1,0 +1,22 @@
+{
+  "name": "kubuuus.pl",
+  "version": "1.0.0",
+  "description": "Source code for kubuuus.pl",
+  "main": "app.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./styles/tailwind.css -o ./public/style.css",
+    "watch:css": "tailwindcss -i ./styles/tailwind.css -o ./public/style.css --watch",
+    "start": "node app.js"
+  },
+  "author": "xKubuuus",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.4",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "hbs": "^4.2.0",
+    "mongoose": "^8.10.1",
+    "tailwindcss": "^4.2.4"
+  }
+}
