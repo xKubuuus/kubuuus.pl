@@ -19,6 +19,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use('/', require("./routes/web"));
 app.use('/api/activity', require("./routes/api/activity"));
+app.use('/api/view', require("./routes/api/view"));
 
 app.listen(PORT,  async () => {
     await UpdateData();

@@ -1,8 +1,8 @@
-import config from "../config.js";
+const config = require("../config.js");
 
 const baseUrl = config.baseUrl;
 
-export async function fetchLanyardData(userId) {
+async function fetchLanyardData(userId) {
     try {
         const response = await fetch(`${baseUrl}${userId}`);
         if (!response.ok) {
@@ -67,3 +67,5 @@ function getDiscordImageUrl(appId, assetId) {
 
     return `https://cdn.discordapp.com/app-assets/${appId}/${assetId}.png`;
 }
+
+module.exports = { fetchLanyardData };

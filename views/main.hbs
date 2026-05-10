@@ -10,10 +10,6 @@
     <div id="content" style="color: {{config.fontColor}}; position:fixed; inset:0; display:flex; justify-content:center; align-items:center; z-index:10;">
         {{> ProfileCard this }}
 
-        {{#if config.showViews}}
-            {{> Views this }}
-        {{/if}}
-
         {{#if config.showPlayer}}
             {{> Player this }}
         {{/if}}

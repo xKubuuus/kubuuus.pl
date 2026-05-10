@@ -12,6 +12,8 @@
     const overlayAudio = document.getElementById("audio");
 
     overlay.addEventListener("click", () => {
+        fetch('/api/view', { method: 'POST' }).catch(() => {});
+
         overlay.style.opacity = "0";
         overlay.style.pointerEvents = "none";
         bgVideo.play().catch(() => {});
