@@ -11,7 +11,7 @@ async function fetchLanyardData(userId) {
         let apiData = await response.json();
 
         // TODO: Add better way for displaying "custom status"
-        if(apiData.data.activities[0].id == "custom") apiData.data.activities.shift();
+        if (apiData.data.activities[0] && apiData.data.activities[0].id === "custom") apiData.data.activities.shift();
 
 
         const data = {
