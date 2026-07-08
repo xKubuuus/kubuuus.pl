@@ -1,6 +1,6 @@
 const config = require("../config.js");
 
-const baseUrl = config.baseUrl;
+const baseUrl = config.lanyard.baseUrl;
 
 async function fetchLanyardData(userId) {
     try {
@@ -47,7 +47,7 @@ async function fetchLanyardData(userId) {
                 break;
         }
 
-        return data;
+        global.data = data;
     } catch (error) {
         console.error(error);
         return null;

@@ -1,0 +1,18 @@
+<div
+        class="flex items-center gap-3 p-3 rounded-xl shadow-lg bg-gray-300/20 backdrop-blur-md ring-1 ring-white/10 z-2 max-w-xs"
+        style="opacity: {{config.opacity}}%; color: {{config.fontColor}}"
+>
+    <img src="{{cover}}" class="w-14 h-14 rounded-full object-cover shadow-md flex-shrink-0 ring-2 ring-white/20" alt="Artysta">
+
+    <div class="flex flex-col min-w-0 gap-0.5">
+        <p class="text-xs uppercase tracking-wide opacity-70 truncate">{{title}}</p>
+        <span class="font-semibold text-sm truncate">{{artist}}</span>
+
+        <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-black/20 text-xs w-fit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            {{plays}} odtworzeń
+        </span>
+    </div>
+</div>

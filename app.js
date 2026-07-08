@@ -3,7 +3,10 @@ const express = require("express");
 const hbs = require("hbs");
 const {join} = require("node:path");
 const db = require("./database.js");
-const { UpdateData } = require("./functions/update.js");
+const LanyardAPI = require("./providers/lanyard.js");
+const StatsFmAPI = require("./providers/statsfm.js");
+
+const cfg = require("./config.js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,10 +25,11 @@ app.use('/api/activity', require("./routes/api/activity"));
 app.use('/api/view', require("./routes/api/view"));
 
 app.listen(PORT,  async () => {
-    await UpdateData();
+    await LanyardAPI.fetchLanyardData(cfg.lanyard.discordId);
 
-    setInterval(() => UpdateData(), 30000);
+    if(cfg.statsfm.username) await StatsFmAPI.fetchUserId(cfg.statsfm.username);
+
+    setInterval(() => LanyardAPI.fetchLanyardData(cfg.lanyard.discordId), 30000);
 
     console.log(`Server is running on port ${PORT}`);
 });
-

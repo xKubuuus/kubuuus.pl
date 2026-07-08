@@ -24,6 +24,19 @@ module.exports = {
     },
 
     // Lanyard url
-    baseUrl: "https://api.lanyard.rest/v1/users/",
-    discordId: "1234567890" // your Discord account ID
+    lanyard: {
+        baseUrl: "https://api.lanyard.rest/v1/users/",
+        discordId: "1234567890", // your Discord account ID
+    },
+
+    // Stats.fm
+    statsfm: {
+        username: "example", // your Stats.fm username (must be a public account!)
+        // types: topSong, topAlbum, topArtist
+        // ranges: weeks (4 weeks), months (6 months), lifetime
+        enabledWidgets: [
+            { type: 'topSong', range: 'weeks', title: 'My favorite song (month)' },
+            { type: 'topArtist', range: 'weeks', title: 'My favorite artist (month)' },
+        ]
+    }
 }
