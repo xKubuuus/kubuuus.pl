@@ -31,7 +31,7 @@ This project uses MongoDB via Mongoose to collect simple view analytics:
 
 1. Clone:
    git clone https://github.com/xKubuuus/LiveProfile.git
-   cd kubuuus.pl
+   cd LiveProfile
 
 2. Install dependencies:
    npm install
